@@ -1,4 +1,4 @@
-module Domain.UnoGame.Commands.UnoGameCommands (UnoGameCommand, Player) where
+module Domain.UnoGame.Commands.UnoGameCommands (UnoGameCommand(..), Player) where
 
 import Domain.UnoGame.Events.UnoGameEvents (Player)
 

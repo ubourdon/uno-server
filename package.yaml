@@ -47,3 +47,4 @@ tests:
     dependencies:
     - uno-server
     - hspec
+    - hspec-discover
