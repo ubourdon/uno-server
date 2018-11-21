@@ -8,7 +8,7 @@ data Cards =
   Stepback Color |
   PlusTwo Color |
   PlusFour |
-  ChangeColor
+  ChangeColor deriving (Eq, Show)
 
 -- Eq means can be compared with (==) & (/=]
 -- Ord means can be compared with <, <=, ...
