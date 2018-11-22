@@ -7,8 +7,8 @@ import Domain.UnoGame.Events.UnoGameErrors (UnoGameError(..))
 import Data.Either
 
 decide :: State -> UnoGameCommand -> Either UnoGameError [UnoGameEvent]
-decide state (StartGame players) = ifEmptyState state [GameStarted players]
+decide state (StartGame pUid aUid players) = ifEmptyState state [GameStarted pUid aUid players]
 
 ifEmptyState :: State -> [UnoGameEvent] -> Either UnoGameError [UnoGameEvent]
 ifEmptyState EmptyState evts = Right evts
-ifEmptyState (State _) _ = Left GameIsAlreadyStarted
+ifEmptyState (State _ _) _ = Left GameIsAlreadyStarted
