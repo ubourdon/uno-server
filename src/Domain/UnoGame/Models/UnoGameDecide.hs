@@ -4,11 +4,15 @@ import Domain.UnoGame.Commands.UnoGameCommands (UnoGameCommand(..))
 import Domain.UnoGame.Events.UnoGameEvents (UnoGameEvent(..))
 import Domain.UnoGame.Models.UnoGameState (State(..))
 import Domain.UnoGame.Events.UnoGameErrors (UnoGameError(..))
-import Data.Either
+import qualified Data.List.NonEmpty as NEL
 
 decide :: State -> UnoGameCommand -> Either UnoGameError [UnoGameEvent]
-decide state (PrepareGame pUid aUid players) = ifEmptyState state [GamePrepared pUid aUid players]
+decide state (StartGame pUid aUid players cardsPackage) =
+  ifEmptyState state [GameStarted pUid aUid players (NEL.head cardsPackage) cardsPackage]
 
 ifEmptyState :: State -> [UnoGameEvent] -> Either UnoGameError [UnoGameEvent]
 ifEmptyState EmptyState evts = Right evts
-ifEmptyState (State _ _) _ = Left GameIsAlreadyPrepared
+ifEmptyState (State _ _) _ = Left GameIsAlreadyStarted
+
+--suffleCards :: [Card] -> [Card]
+--suffleCards cards = cards

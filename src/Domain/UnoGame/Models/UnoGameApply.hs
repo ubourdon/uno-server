@@ -6,4 +6,4 @@ import Domain.UnoGame.Models.UnoGameState (State(State), StateUid(StateUid))
 import Domain.Common.EventMetadata (AggregateUid(AggregateUid))
 
 apply :: State -> UnoGameEvent -> State
-apply state (GamePrepared _ (AggregateUid uid) players) = State (StateUid uid) players
+apply _ (GameStarted _ (AggregateUid uid) players _ _) = State (StateUid uid) players

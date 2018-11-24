@@ -1,11 +1,16 @@
-module Domain.UnoGame.Models.Cards where
+module Domain.UnoGame.Models.Cards (CardsDeck, CardsPackage, Card(..), ValueCard(..), Color(..)) where
 
-import Data.Ord
+import Data.List.NonEmpty
 
-data Cards =
+-- All the Cards available at the start of the game
+type CardsPackage = NonEmpty Card
+-- Cards available in the Deck at a T time
+type CardsDeck = [Card]
+
+data Card =
   NumericCard ValueCard Color |
   StopCard Color |
-  Stepback Color |
+  KickBack Color |
   PlusTwo Color |
   PlusFour |
   ChangeColor deriving (Eq, Show)

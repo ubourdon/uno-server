@@ -3,13 +3,10 @@
 module Utils.EventsourcingTestFramework (_Given, _When, _Then) where
 
 import Domain.UnoGame.DomainEventModule (DomainEventApply(apply), DomainEventDecide(decide), DomainEventEmptyState(_EmptyState))
-import Domain.UnoGame.Models.UnoGameState (State(EmptyState))
 import Test.Hspec
-import Data.Proxy
 
 newtype ExpectedEvents evt = ExpEvt [evt]
 newtype InitialState evt = IState [evt]
-type ExpectedError error = error
 
 _Given :: [event] -> InitialState event
 _Given = IState
@@ -31,6 +28,7 @@ performPredicate emptystate cmd (IState evts) expResult = assertEqual result exp
 assertEqual :: (Show event, Show error, Eq event, Eq error) => Either error [event] -> Either error (ExpectedEvents event) -> IO ()
 assertEqual (Right result) (Right (ExpEvt expected)) = result `shouldBe` expected
 assertEqual (Left err) (Left expected) = err `shouldBe` expected
+assertEqual _ _ = True `shouldBe` False
 
 calculCurrentState :: (DomainEventApply event state) => state -> [event] -> state
 calculCurrentState istate evts = foldl (\currentState event -> apply currentState event ) istate evts
