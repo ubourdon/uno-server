@@ -51,3 +51,4 @@ tests:
     - uno-server
     - hspec
     - hspec-discover
+    #- quickcheck
