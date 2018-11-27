@@ -8,6 +8,8 @@ module Domain.UnoGame.UnoGameSpec where
 import Test.Hspec
 import Utils.EventsourcingTestFramework (_Given, _When, _Then)
 import Domain.UnoGame.UnoGameTestData
+import Domain.UnoGame.Events.UnoGameEvents
+import Domain.UnoGame.Events.UnoGameErrors
 import Utils.Thrush ((|>))
 
 
@@ -55,14 +57,20 @@ spec = do
 
 
   describe "Should play a card at wrong turn" $ do
-    it "Given a started game, When try to play a card, But player play at wrong turn, Then should return [CardPlayedAtWrongTurn, PenaltyGaveToPlayer]" $ do
+    it (unlines [
+      "Given a started game, ",
+      "When try to play a card,",
+      "But player play at wrong turn,",
+      "Then should return [CardPlayedAtWrongTurn, PenaltyGaveToPlayer]"]) $ do
       testData <- initDataForPlayCard
       let _GameStarted = gameStarted (testData :: DataForPlayCard)
       let _PlayCard = playCardAtWrongTurn (testData :: DataForPlayCard)
       let _CardPlayedAtWrongTurn = expectedCardPlayedAtWrongTurn (testData :: DataForPlayCard)
+      let _PenaltyGaveToPlayer = expectedPenaltyGaveToPlayer (testData :: DataForPlayCard)
 
-      _Given [_GameStarted] |> _When _PlayCard |> _Then _CardPlayedAtWrongTurn
-      -- TODO penalty
+      _Given [_GameStarted] |>
+        _When _PlayCard |>
+        _Then (Right [_CardPlayedAtWrongTurn, _PenaltyGaveToPlayer] :: Either UnoGameError [UnoGameEvent])
 
 
   describe "Should play a wrong card" $ do
@@ -96,6 +104,10 @@ spec = do
       it "player referenced in command should exist in Game" $ do
         pendingWith "not implemented"
 
+  -- TODO le joueur pioche
+
   -- TODO si ce n'est pas la bonne carte                      => Event
   -- TODO la carte n'est pas disponible dans le jeu du joueur => ERROR
+
+  -- TODO gérer le cas ou de deck est vide => remettre les cartes jouées (mélangées)
   

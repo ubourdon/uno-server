@@ -1,11 +1,6 @@
-module Domain.UnoGame.Models.Cards (CardsDeck, CardsPackage, Card(..), ValueCard(..), Color(..)) where
+module Domain.UnoGame.Models.Cards (Card(..), ValueCard(..), Color(..)) where
 
 import Data.List.NonEmpty
-
--- All the Cards available at the start of the game
-type CardsPackage = NonEmpty Card
--- Cards available in the Deck at a T time
-type CardsDeck = [Card]
 
 data Card =
   NumericCard ValueCard Color |
